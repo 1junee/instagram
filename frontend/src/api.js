@@ -2,7 +2,7 @@ export const SERVER_URL = 'http://localhost:8000'
 
 export async function api(path, options) { 
     // localhost/posts, localhost/posts/3/likes
-    const res = await fetch(`${SERVER_URL}${path}`)
+    const res = await fetch(`${SERVER_URL}${path}`, options)
 
     // 문제가 있을 때
     if (!res.ok) { 

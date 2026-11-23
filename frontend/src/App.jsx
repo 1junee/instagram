@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar.jsx"
 import PostList from "../routes/PostList.jsx"
 import PostDetail from "../routes/PostDetail.jsx"
+import Login from "../routes/Login.jsx"
 
 import { Routes, Route } from "react-router"
 
@@ -15,6 +16,7 @@ function App() {
                         <Route path="/" element={<PostList />} />
                         {/* 밑의 :id가 어디로 가는지 생각 */}
                         <Route path="/posts/:id" element={<PostDetail />} />
+                        <Route path="/login" element={<Login />} />
                     </Routes>
                 </main>
                 </div>
