@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { api } from '../src/api.js'
 import { useNavigate } from "react-router"
+import { useAuth } from "../hooks/useAuth.jsx"
 
 function Login() {
 
@@ -9,6 +10,7 @@ function Login() {
     const [error, setError] = useState('')
 
     const navigate = useNavigate()
+    const { login } = useAuth()
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -16,13 +18,15 @@ function Login() {
 
         // 로그인 처리 (fastapi한테 토큰 달라고 하기)
         try {
-            const data = await api('/api/auth/login', {
-                method: 'POST',
-                body: new URLSearchParams({ username, password })
-            })
+
+            await login(username, password)
+            // const data = await api('/api/auth/login', {
+            //     method: 'POST',
+            //     body: new URLSearchParams({ username, password })
+            // })
             // console.log(data)
 
-            localStorage.setItem('access_token', data.access_token)
+            // localStorage.setItem('access_token', data.access_token)
             // fastAPI의 Redirection
             navigate('/')
 
