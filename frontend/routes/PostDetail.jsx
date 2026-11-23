@@ -9,17 +9,23 @@ function PostDetail() {
     const { id } = useParams()
     const [post, setPost] = useState(null)
     const [comments, setComments] = useState([])
+    const [error, setError] = useState('')
 
     // () => { ... }: 실행할 작업, [id]: 변경을 확인할 값(의존성)
     // 처음 화면에 나타난 뒤 실행하고, id가 바뀌면 해당 게시글을 다시 가져온다.
     useEffect(() => {  
         async function load() {
-            setPost(await api(`/api/posts/${id}`))
-            setComments(await api(`/api/posts/${id}/comments`))
+            try {
+                setPost(await api(`/api/posts/${id}`))
+                setComments(await api(`/api/posts/${id}/comments`))
+            } catch (e) { 
+                setError(e.message)
+            }
         }
         load()
     }, [id])
 
+    if (error) return <p className="text-danger">{ error }</p>
     if (!post) return <p>불러오는 중...</p>
 
     return (
