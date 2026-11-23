@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar.jsx"
 import PostList from "../routes/PostList.jsx"
+import PostDetail from "../routes/PostDetail.jsx"
 
 import { Routes, Route } from "react-router"
 
@@ -12,6 +13,8 @@ function App() {
                 <main className="py-4">
                     <Routes>
                         <Route path="/" element={<PostList />} />
+                        {/* 밑의 :id가 어디로 가는지 생각 */}
+                        <Route path="/posts/:id" element={<PostDetail />} />
                     </Routes>
                 </main>
                 </div>
