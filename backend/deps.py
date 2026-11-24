@@ -34,7 +34,7 @@ ALGORITHM = 'HS256'
 
 
 def create_access_token(user_id: int):
-    exp = datetime.now(timezone.utc) + timedelta(minutes=1)
+    exp = datetime.now(timezone.utc) + timedelta(minutes=30)
     return jwt.encode(
         {'sub': str(user_id), 'exp': exp}, SECRET_KEY, algorithm=ALGORITHM
     )
