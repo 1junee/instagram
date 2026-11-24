@@ -55,10 +55,14 @@ export function AuthProvider({ children }) {
         setToken(data.access_token)
         // localStorage.setItem('access_token', data.access_token)
     }
-    function logout() {  
+    async function logout() {  
+        // 쿠키 삭제
+        await api('/api/auth/logout', { method: 'POST', credentials: 'include' })
+        // access_token 삭제
         setToken(null)
+        // 유저 정보 삭제
         setUser(null)
-        localStorage.removeItem('access_token')
+        // localStorage.removeItem('access_token')
     }
 
     return <AuthContext value={{ token, user, ready, login, logout }}>{ children }</AuthContext>

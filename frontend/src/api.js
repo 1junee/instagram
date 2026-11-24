@@ -17,5 +17,6 @@ export async function api(path, options) {
         //      pass
         // p = Person()
     }
+    if (res.status === 204) return null
     return await res.json()
 }
