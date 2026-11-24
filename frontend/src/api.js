@@ -1,5 +1,9 @@
 export const SERVER_URL = 'http://localhost:8000'
 
+/**
+ * @param {string} path
+ * @param {RequestInit} [options]
+ */
 export async function api(path, options) { 
     // localhost/posts, localhost/posts/3/likes
     const res = await fetch(`${SERVER_URL}${path}`, options)

@@ -9,6 +9,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=['http://localhost:5173'],
     allow_headers=['Authorization'],
+    allow_credentials=True,
 )
 
 app.include_router(posts.router)

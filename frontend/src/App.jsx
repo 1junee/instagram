@@ -4,6 +4,7 @@ import PostDetail from "../routes/PostDetail.jsx"
 import Login from "../routes/Login.jsx"
 
 import { Routes, Route } from "react-router"
+import RequireLogin from "../components/RequireLogin.jsx"
 
 function App() { 
     return (
@@ -13,9 +14,11 @@ function App() {
                 <Navbar />
                 <main className="py-4">
                     <Routes>
-                        <Route path="/" element={<PostList />} />
-                        {/* 밑의 :id가 어디로 가는지 생각 */}
-                        <Route path="/posts/:id" element={<PostDetail />} />
+                        <Route element={<RequireLogin/> }>
+                            <Route path="/" element={<PostList />} />
+                            {/* 밑의 :id가 어디로 가는지 생각 */}
+                            <Route path="/posts/:id" element={<PostDetail />} />
+                        </Route>
                         <Route path="/login" element={<Login />} />
                     </Routes>
                 </main>

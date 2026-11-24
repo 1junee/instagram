@@ -72,7 +72,7 @@ function Login() {
                 />
                 <button className="btn btn-primary">로그인</button>
             </form>
-            { error && <p class="text-danger" > { error } </p> }
+            { error && <p className="text-danger" > { error } </p> }
         </div>
     )
  }
