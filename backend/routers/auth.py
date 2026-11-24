@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends, Response ,Cookie
+from fastapi import APIRouter, HTTPException, Depends, Response, Cookie
 from schemas import UserCreate, UserOut, Token
 from deps import (
     SessionDep,
@@ -11,12 +11,28 @@ from deps import (
 )
 from models import User, RefreshToken
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 import jwt
 import uuid
 
 router = APIRouter(prefix='/api/auth', tags=['auth'])
+
+
+def set_refresh_cookie(response: Response, user: User, db: Session) -> None:
+    # 발급할 리프레시 토큰의 ID를 DB에 저장
+    jti = uuid.uuid4().hex
+    db.add(RefreshToken(id=jti, user_id=user.id))
+    db.commit()
+
+    response.set_cookie(
+        'refresh_token',
+        create_refresh_token(user.id, jti),
+        httponly=True,
+        samesite='lax',
+        max_age=60 * 60 * 24 * 14
+    )
 
 
 @router.post('/signup', response_model=UserOut, status_code=201)
@@ -48,18 +64,20 @@ def login(
             status_code=401, detail='아이디 또는 비밀번호가 틀렸습니다.'
         )
 
-    # 서버에도 토큰 저장
-    jti = uuid.uuid4().hex # 1fab12324e ...
-    db.add(RefreshToken(id=jti , user_id=user.id))
-    db.commit()
+    # # 서버에도 토큰 저장
+    # jti = uuid.uuid4().hex # 1fab12324e ...
+    # db.add(RefreshToken(id=jti , user_id=user.id))
+    # db.commit()
 
-    response.set_cookie(
-        'refresh_token',
-        create_refresh_token(user.id, jti),
-        httponly=True,
-        samesite='lax',
-        max_age=60 * 60 * 24 * 14
-    )
+    # response.set_cookie(
+    #     'refresh_token',
+    #     create_refresh_token(user.id, jti),
+    #     httponly=True,
+    #     samesite='lax',
+    #     max_age=60 * 60 * 24 * 14
+    # )
+
+    set_refresh_cookie(response, user, db)
 
     token = create_access_token(user.id)
 
@@ -98,9 +116,9 @@ def refresh(db: SessionDep, refresh_token: Annotated[str | None, Cookie()] = Non
 
 @router.post('/logout')
 def logout(
-    db: SessionDep, 
-    response: Response, 
-    refresh_token: Annotated[str | None, Cookie()]
+    db: SessionDep,
+    response: Response,
+    refresh_token: Annotated[str | None, Cookie()] = None,
 ):
     # db에서도 토큰 삭제
     if refresh_token:
