@@ -84,6 +84,6 @@ def refresh(db: SessionDep, refresh_token: Annotated[str | None, Cookie()] = Non
 
 
     # access_token 발행
-    return {'access_token': create_refresh_token(user.id), 'token_type': 'bearer'}
+    return {'access_token': create_access_token(user.id), 'token_type': 'bearer'}
 
 
