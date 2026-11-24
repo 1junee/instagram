@@ -40,10 +40,10 @@ def create_access_token(user_id: int):
     )
 
 
-def create_refresh_token(user_id: int):
+def create_refresh_token(user_id: int, jti: str):
     exp = datetime.now(timezone.utc) + timedelta(days=14)
     return jwt.encode(
-        {'sub': str(user_id), 'exp': exp, 'type': 'refresh'},
+        {'sub': str(user_id), 'exp': exp, 'type': 'refresh', 'jti': jti},
         SECRET_KEY,
         algorithm=ALGORITHM,
     )
