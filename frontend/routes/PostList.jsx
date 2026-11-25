@@ -18,6 +18,17 @@ function PostList() {
         load()
     }, [])
 
+    function handleUpdate(updated) {
+        const newPosts = posts.map((post) => {  
+            if (post.id == updated.id){
+                return updated
+            }
+            return post
+        })
+        setPosts(newPosts)
+    }
+
+
     // 이전 방식: PostList 안에서 로그인 여부에 따라 화면을 나눴다.
     // 현재는 App의 RequireLogin이 먼저 확인하므로 게시글 목록만 표시한다.
     // return (
@@ -68,7 +79,7 @@ function PostList() {
 
             <div>
                 {posts.map(post => (
-                    <PostCard key={post.id} {...post} />
+                    <PostCard key={post.id} {...post} onUpdate={ handleUpdate }/>
                 ))}
             </div>
         </>
