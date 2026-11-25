@@ -3,9 +3,10 @@ import PostList from "../routes/PostList.jsx"
 import PostDetail from "../routes/PostDetail.jsx"
 import Login from "../routes/Login.jsx"
 import Signup from "../routes/Signup.jsx"
+import RequireLogin from "../components/RequireLogin.jsx"
+import NewPost from "../routes/newPost.jsx"
 
 import { Routes, Route } from "react-router"
-import RequireLogin from "../components/RequireLogin.jsx"
 
 function App() { 
     return (
@@ -19,6 +20,7 @@ function App() {
                             <Route path="/" element={<PostList />} />
                             {/* 밑의 :id가 어디로 가는지 생각 */}
                             <Route path="/posts/:id" element={<PostDetail />} />
+                            <Route path="/new" element={<NewPost />}></Route>
                         </Route>
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
