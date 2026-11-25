@@ -13,7 +13,10 @@ function Navbar () {
                     <button className="btn btn-sm btn-outline-danger" onClick={ logout }>logout</button>
                 </div>
             :
-                <Link className="btn btn-sm btn-outline-secondary" to="/login">login</Link>
+                <div>
+                    <Link className="btn btn-sm btn-outline-secondary" to="/login">login</Link>
+                    <Link className="btn btn-sm btn-outline-secondary" to="/signup">signup</Link>
+                </div>
             }
         </nav>
     )

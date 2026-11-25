@@ -2,6 +2,9 @@ import { useState } from "react"
 import { api } from '../src/api.js'
 import { Link, useNavigate } from "react-router"
 import { useAuth } from "../hooks/useAuth.jsx"
+import { SERVER_URL } from "../src/api.js"
+import googleLogo from "../src/assets/google-g.png"
+import "./Login.css"
 
 function Login() {
 
@@ -72,8 +75,15 @@ function Login() {
                 />
                 <button className="btn btn-primary">로그인</button>
             </form>
+            <a
+                className="google-sign-in mt-3"
+                href={`${SERVER_URL}/api/auth/google/login`}
+            >
+                <img src={googleLogo} alt="" width="20" height="20" />
+                Google로 로그인
+            </a>
             { error && <p className="text-danger" > { error } </p> }
-            
+
             <p className="mt-3"><Link to="/signup">가입하기</Link></p>
         </div>
     )
