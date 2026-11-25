@@ -4,7 +4,7 @@ import PostDetail from "../routes/PostDetail.jsx"
 import Login from "../routes/Login.jsx"
 import Signup from "../routes/Signup.jsx"
 import RequireLogin from "../components/RequireLogin.jsx"
-import NewPost from "../routes/newPost.jsx"
+import NewPost from "../routes/NewPost.jsx"
 
 import { Routes, Route } from "react-router"
 
