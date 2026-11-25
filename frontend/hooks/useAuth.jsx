@@ -42,6 +42,19 @@ export function AuthProvider({ children }) {
         load()
     }, [])
 
+    // 로그인이 필요한 요청 => 401이면 새로운 토큰 발행받아서 한번 더 요청
+    async function authApi(path, options) {
+        try {
+            return await api(path, {...options, headers: { Authorization: `Bearer ${token}` }})
+        } catch (e) {
+            if (e.status != 401) throw e
+
+            // 401은 인증에러인데, refresh는 살아있다면 access를 재발행 => token state에 저장
+            const data = await api('/api/auth/refresh', { method: 'POST', credentials: 'include' })
+            setToken(data.access_token)
+            return await api(path, {...options, headers: { Authorization: `Bearer ${data.access_token}` }})
+        }
+    }
 
     async function login(username, password) {  
         const data = await api('/api/auth/login', {
@@ -65,7 +78,7 @@ export function AuthProvider({ children }) {
         // localStorage.removeItem('access_token')
     }
 
-    return <AuthContext value={{ token, user, ready, login, logout }}>{ children }</AuthContext>
+    return <AuthContext value={{ token, user, ready, login, logout, authApi }}>{ children }</AuthContext>
 }
 
 // 하위 컴포넌트에서 provider의 state에 접근하기 위한 함수

@@ -19,13 +19,14 @@ function PostList() {
     }, [])
 
     function handleUpdate(updated) {
-        const newPosts = posts.map((post) => {  
-            if (post.id == updated.id){
-                return updated
-            }
-            return post
-        })
-        setPosts(newPosts)
+        // const newPosts = posts.map((post) => {  
+        //     if (post.id == updated.id){
+        //         return updated
+        //     }
+        //     return post
+        // })
+        // setPosts(newPosts)
+        setPosts(posts.map(post => post.id === updated.id ? updated : post))
     }
 
 
