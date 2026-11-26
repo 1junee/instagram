@@ -1,5 +1,5 @@
 import { api } from "../src/api.js"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 // import { Link } from 'react-router' // 이전 로그인 안내에서 사용
 import PostCard from "../components/PostCard.jsx"
 import { useAuth } from '../hooks/useAuth.jsx' // 로그인 확인은 RequireLogin에서 처리
@@ -9,6 +9,9 @@ function PostList({ path }) {
     // 게시물을 저장할 state 생성
     const [posts, setPosts] = useState([])
     const [hasMore, setHasMore] = useState(true)
+
+    // const bottom = document.querySelector('p')
+    const bottom = useRef(null)
 
     // const { token } = useAuth() // 이전 방식에서 사용
     const { authApi } = useAuth()
@@ -22,6 +25,23 @@ function PostList({ path }) {
         }
         load()
     }, [path])
+
+
+    // 맨 아래칸이 화면에 들어오면 다음 10개 호출(loadMore)
+    useEffect(() => { 
+        const observer = new IntersectionObserver((entries) => {  
+            if (entries[0].isIntersecting) {
+                loadMore()
+            }
+        })
+        if (bottom.current) {
+            observer.observe(bottom.current)
+        }
+
+        // 다음 useEffect를 시작하기 전에 반환된 함수 실행
+        return () => observer.disconnect()
+    }, [posts])
+
 
 
     async function loadMore() {
@@ -98,7 +118,8 @@ function PostList({ path }) {
             </div>
             { hasMore && (
                 <div className="text-center">
-                    <button className="btn btn-outline-secondary" onClick={ loadMore }>더보기</button>
+                    {/* <button className="btn btn-outline-secondary" onClick={ loadMore }>더보기</button> */}
+                    <p ref={ bottom }>불러오는 중...</p>
                 </div>
             ) }
         </>
