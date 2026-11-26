@@ -10,7 +10,8 @@ function Navbar () {
             { token ?
                 <div className='d-flex align-items-center gap-2'>
                     <Link className="text-reset" to="/new"><i className='bi bi-plus-square'></i></Link>
-                    { user && <Link className='' to={`/users/${user.username}`}>{ user.username }</Link> }
+                    <Link className="text-reset" to="/feed">feed</Link>
+                    { user && <Link className='text-reset' to={`/users/${user.username}`}>{ user.username }</Link> }
                     <button className="btn btn-sm btn-outline-danger" onClick={ logout }>logout</button>
                 </div>
             :

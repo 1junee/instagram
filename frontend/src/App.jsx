@@ -18,7 +18,10 @@ function App() {
                 <main className="py-4">
                     <Routes>
                         <Route element={<RequireLogin/> }>
-                            <Route path="/" element={<PostList />} />
+
+                            <Route path="/" element={<PostList path="/api/posts"/>} />
+                            <Route path="/feed" element={<PostList path="/api/posts/feed"/>} />
+                        
                             {/* 밑의 :id가 어디로 가는지 생각 */}
                             <Route path="/posts/:id" element={<PostDetail />} />
                             <Route path="/new" element={<NewPost />}></Route>
