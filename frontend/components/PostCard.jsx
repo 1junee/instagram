@@ -27,7 +27,7 @@ function PostCard({ id, content, created_at, image_url, user, likes, onUpdate })
         <article className="card mb-4">
             <div className="card-header bg-white d-flex align-items-center gap-2">
                 <i className="bi bi-person-circle fs-4"></i>
-                <b>{user.username}</b>
+                <Link className="text-reset text-decoration-none fw-bold" to={`/users/${user.username}`}>{user.username}</Link>
             </div>
             {image_url && (
                 <Link className="ratio ratio-1x1" to={`/posts/${id}`}>
@@ -45,7 +45,13 @@ function PostCard({ id, content, created_at, image_url, user, likes, onUpdate })
                     </Link>
                 </div>
                 <p className="mb-1"><b>좋아요 {likes.length}개</b></p>
-                <p className="mb-1"><b>{user.username}</b> {content}</p>
+                {/* <p className="mb-1"><b>{user.username}</b> {content}</p> */}
+                <p className="mb-1">
+                    <Link to={`/users/${user.username}`} className="fw-bold text-reset text-decoration-none">
+                        {user.username}
+                    </Link>
+                    {' '}{content}
+                </p>
                 <small className="text-secondary">{new Date(created_at).toLocaleString('ko-KR')}</small>
             </div>
         </article>

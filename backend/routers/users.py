@@ -28,7 +28,7 @@ def user_posts(user: UserDep, db: SessionDep):
     return db.scalars(select(Post).where(Post.user_id == user.id)).all()
 
 
-@router.post('{username}/follow', response_model=ProfileOut)
+@router.post('/{username}/follow', response_model=ProfileOut)
 def follow(user: UserDep, db: SessionDep, me: CurrentUserDep):
     if user.id == me.id:
         raise HTTPException(status_code=400, detail='자신을 팔로우할 수 없습니다.')
@@ -42,7 +42,7 @@ def follow(user: UserDep, db: SessionDep, me: CurrentUserDep):
     return user
 
 
-@router.delete('{username}/follow')
+@router.delete('/{username}/follow', response_model=ProfileOut)
 def unfollow(user: UserDep, db: SessionDep, me:CurrentUserDep):
     row = db.get(Follow, (me.id, user.id))
     if row is None:
